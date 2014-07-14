@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ReciteWithGame</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- 基础功能 -->
+    <string name="back">返回</string>
+    <string name="option">选项</string>
+    <string name="position">位置</string>
+    <string name="init_lexicon">导入词库中···</string>
+
+    <!-- 游戏 -->
+    <string name="head_portrait">头像</string>
+    <string name="score_with_symbol">得分:%1$s</string>
+    <string name="rate_with_symbol">进度:%1$s</string>
+    <string name="update">  换一批  </string>
+    <string name="change_picture">更换图片</string>
+    <string name="start_puzzle">开始拼图</string>
+    <string name="go_on">继续</string>
+    <string name="give_up">放弃</string>
+    <string name="win_tip">本次单词拼图用时：%1$s秒,领先全国%2$s的用户。特发此奖，以资鼓励。</string>
+    <string name="lose_tip">本次挑战失败。别灰心，再接再厉啊！</string>
+
+    <!-- title -->
+    <string name="title_activity_launch">LaunchActivity</string>
+    <string name="title_activity_result">ResultActivity</string>
+    <string name="title_activity_result_lose">ResultLoseActivity</string>
+    <string name="title_activity_option">OptionActivity</string>
+    <string name="title_activity_choose_lexicon">ChooseLexiconActivity</string>
+
+</resources>
