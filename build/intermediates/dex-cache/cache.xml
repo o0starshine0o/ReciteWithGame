@@ -2,16 +2,28 @@
 <pre-dex-items>
 
     <item
-        dex="F:\myProgram\ReciteWithGame\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-bb7ecef687296a2c0d1dbf44c5ec43554b4bbf81.jar"
-        jar="G:\Program Files (x86)\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        dex="D:\program\ReciteWithGame\app\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-a63b7d6604f04abd47bd6430b0e635cdb36f0bd0.jar"
+        jar="E:\Program Files\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
     <item
-        dex="F:\myProgram\ReciteWithGame\app\build\intermediates\pre-dexed\debug\classes-37c46425ad2f776cfafcc7524f749d614be2b98a.jar"
-        jar="F:\myProgram\ReciteWithGame\build\intermediates\exploded-aar\com.android.support\appcompat-v7\19.1.0\classes.jar"
+        dex="D:\program\ReciteWithGame\app\build\intermediates\pre-dexed\debug\classes-8f340a489035a3a042c0ddca3187a85a9adf7a2b.jar"
+        jar="D:\program\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+        sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
+    <item
+        dex="D:\program\ReciteWithGame\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-5896168af6a5380b24a6d4d562c55c57ee1f62f5.jar"
+        jar="D:\program\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
+    <item
+        dex="D:\program\ReciteWithGame\app\build\intermediates\pre-dexed\debug\classes-fae734f164c406bf9d4394ca876b6b8db1d294f3.jar"
+        jar="D:\program\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\20.0.0\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef"/>
 
 </pre-dex-items>
