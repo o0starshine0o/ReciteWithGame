@@ -28,6 +28,6 @@
     <string name="title_activity_result">ResultActivity</string>
     <string name="title_activity_result_lose">ResultLoseActivity</string>
     <string name="title_activity_option">OptionActivity</string>
-    <string name="title_activity_choose_lexicon">ChooseLexiconActivity</string>
+    <string name="title_activity_choose_lexicon">选择题库</string>
 
 </resources>

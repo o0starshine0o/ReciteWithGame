@@ -3,9 +3,18 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <include
+    <LinearLayout
         android:id="@+id/title"
-        layout="@layout/widget_title_base" />
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/title_activity_choose_lexicon"
+            style="@style/TitleTextTheme"/>
+    </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
@@ -14,6 +23,8 @@
         android:layout_below="@+id/title"
         android:dividerHeight="0dp"
         android:divider="@color/transparent"
-        android:listSelector="@color/transparent"/>
+        android:listSelector="@color/transparent"
+        android:background="@color/common_bg_color"
+        android:paddingBottom="20dp"/>
 
 </RelativeLayout>

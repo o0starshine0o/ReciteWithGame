@@ -16,4 +16,8 @@
 
     <dimen name="head_portrait_width">125dp</dimen>
     <dimen name="head_portrait_height">125dp</dimen>
-    </resources>
+
+    <dimen name="title_text_size">18sp</dimen>
+
+    <dimen name="list_item_height_choose_lexicon_icon">80dp</dimen>
+</resources>
