@@ -4,6 +4,9 @@ package com.starshine.app.constant;
  * SharePreference常量
  *
  * Created by huyongsheng on 2014/5/21.
+ *
+ * Modified by SunFenggang on 2014/10/26.
+ * 添加游戏背景类型及其相关的变量。
  */
 public class SharedPreferencesConstant {
     public static final String APP_NAME = "recite_with_game";
@@ -14,4 +17,27 @@ public class SharedPreferencesConstant {
 
     public static final boolean LEXICON_NOT_EXIST = false;
     public static final boolean LEXICON_EXIST = true;
+
+    /**
+     * 游戏背景类型
+     * PUZZLE_BACKGROUND_TYPE_SYS-0：系统图片（默认值）
+     * PUZZLE_BACKGROUND_TYPE_CUSTOM-1：自定义图片
+     */
+    public static final String PUZZLE_BACKGROUND_TYPE = "puzzle_background_type";
+
+    /**
+     * 游戏背景类型：系统图片（默认值）
+     */
+    public static final int PUZZLE_BACKGROUND_TYPE_SYS = 0;
+
+    /**
+     * 游戏背景类型：自定义图片
+     */
+    public static final int PUZZLE_BACKGROUND_TYPE_CUSTOM = 1;
+
+    /**
+     * 作为游戏背景的系统内置图片的资源id在本地文件中存储时使用的变量名称
+     */
+    public static final String PUZZLE_BACKGROUND_RESOURCE_ID = "puzzle_background_resource_id";
+
 }

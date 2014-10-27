@@ -20,4 +20,6 @@
     <dimen name="title_text_size">18sp</dimen>
 
     <dimen name="list_item_height_choose_lexicon_icon">80dp</dimen>
+
+    <dimen name="general_line_height">35dp</dimen>
 </resources>

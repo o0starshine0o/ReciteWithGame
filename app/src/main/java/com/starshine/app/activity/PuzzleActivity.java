@@ -2,6 +2,8 @@ package com.starshine.app.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.View;
 import android.widget.GridView;
@@ -23,11 +25,16 @@ import com.starshine.app.utils.DBUtils;
 import com.starshine.app.utils.SharedPreferencesUtils;
 import com.starshine.app.utils.StringUtils;
 
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Modified by SunFenggang on 2014/10/26.
+ * 修改了设定拼图背景的逻辑方法，添加了对系统内置图片的支持。
+ */
 public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameResultListener, CountdownTask.TimeUpdateListener {
     private static final String LOG_TAG = PuzzleActivity.class.getSimpleName();
 
@@ -79,6 +86,7 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
     protected void initHeaderView() {
         super.initHeaderView();
         mTitleTextView.setText(mLexiconTitle);
+        mOptionButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -101,8 +109,26 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
         mList = getWordList();
         mPuzzleAdapter.setData(mList);
         mPuzzleGridView.setAdapter(mPuzzleAdapter);
-        updateItemUri(Uri.parse(SharedPreferencesUtils.getString(this, SharedPreferencesConstant.APP_NAME,
-                SharedPreferencesConstant.PUZZLE_BACKGROUND_URI, "")));
+
+        /* 根据背景图片的类型，调用不同的方法来设定拼图背景 */
+        switch (SharedPreferencesUtils.getInt(this, SharedPreferencesConstant.APP_NAME,
+                SharedPreferencesConstant.PUZZLE_BACKGROUND_TYPE,           // 背景图片类型
+                SharedPreferencesConstant.PUZZLE_BACKGROUND_TYPE_SYS)) {    // 默认值为系统图片
+            case SharedPreferencesConstant.PUZZLE_BACKGROUND_TYPE_SYS:
+                /* 背景图为系统内置图片 */
+                int resId = SharedPreferencesUtils.getInt(this, SharedPreferencesConstant.APP_NAME,
+                        SharedPreferencesConstant.PUZZLE_BACKGROUND_RESOURCE_ID,
+                        SetGameBgActivity.SYS_GAME_BGS[0]);
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resId);
+                updateItemBitmap(bitmap);
+                break;
+            case SharedPreferencesConstant.PUZZLE_BACKGROUND_TYPE_CUSTOM:
+                /* 背景图为用户自定义图片 */
+                updateItemUri(Uri.parse(SharedPreferencesUtils.getString(this, SharedPreferencesConstant.APP_NAME,
+                        SharedPreferencesConstant.PUZZLE_BACKGROUND_URI, "")));
+                break;
+        }
+
     }
 
     private List<PuzzleItem> getWordList() {
@@ -206,15 +232,31 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
     }
 
     private void updateItemUri(Uri mPictureUri) {
-        if (mPictureUri != null) {
+        if (!StringUtils.isNullOrEmpty(mPictureUri.toString())) {
+            /* 存在本地图片 */
             for (int i = 0; i < mList.size(); i++) {
-                if (!StringUtils.isNullOrEmpty(mPictureUri.toString())) {
-                    mList.get(i).setBitmap(BitmapUtils.getCutBitmapByUri(this, mPictureUri, 3, i));
-                } else {
-                    mList.get(i).setBitmap(BitmapUtils.getBitmapByResourceId(this, R.drawable.puzzle_item_default_bg));
-                }
+                mList.get(i).setBitmap(BitmapUtils.getCutBitmapByUri(this, mPictureUri, 3, i));
             }
-            mPuzzleAdapter.notifyDataSetChanged();
+        } else {
+            /* 不存在本地图片，使用系统默认的第一幅图 */
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_game_sys_1);
+            updateItemBitmap(bitmap);
+        }
+        mPuzzleAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 设定拼图背景
+     * @author SunFenggang
+     * @desc 如果选用的是系统内置的图片，则使用本方法
+     *       如果选用的是用户自定义的图片，则在设定拼图背景时使用updateItemUri(Uri uri)方法
+     * @param bitmap 原始图片
+     */
+    private void updateItemBitmap(Bitmap bitmap) {
+        if (bitmap != null) {
+            for (int i=0; i<mList.size(); ++i) {
+                mList.get(i).setBitmap(BitmapUtils.setCutBitmap(bitmap, 3, i));
+            }
         }
     }
 }

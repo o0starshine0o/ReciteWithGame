@@ -27,7 +27,22 @@
     <string name="title_activity_launch">LaunchActivity</string>
     <string name="title_activity_result">ResultActivity</string>
     <string name="title_activity_result_lose">ResultLoseActivity</string>
-    <string name="title_activity_option">OptionActivity</string>
+    <string name="title_activity_option">模式选择</string>
     <string name="title_activity_choose_lexicon">选择题库</string>
+    <string name="title_activity_set_game_bg">设置背景图</string>
 
+    <string name="btn_normal_mode">普通模式（5分钟）</string>
+    <string name="btn_pro_mode">挑战模式（2分钟）</string>
+    <string name="txt_set_bg_from_local">从本地选择图片</string>
+    <string name="txt_set_bg_hint">点击图片设定拼图背景</string>
+    <string name="txt_set_bg_from_local_hint_no_1">1.</string>
+    <string name="txt_set_bg_from_local_hint_no_2">2.</string>
+    <string name="txt_set_bg_from_local_hint_no_3">3.</string>
+    <string name="txt_set_bg_from_local_hint_1">不要选择太花的图片</string>
+    <string name="txt_set_bg_from_local_hint_2">不要选择色调太亮的图片，因为游戏文字是白色的</string>
+    <string name="txt_set_bg_from_local_hint_3">不要选择切成九宫图以后会出现两块相同的图块的图片</string>
+    <string name="txt_set_bg_help"><u>温馨提示</u></string>
+    <string name="title_txt_set_bg_help">温馨提示</string>
+    <string name="txt_txv_close">X</string>
+    <string name="txt_txv_sys_bg">系统推荐背景</string>
 </resources>

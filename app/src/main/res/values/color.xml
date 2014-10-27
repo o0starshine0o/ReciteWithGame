@@ -7,7 +7,14 @@
     <color name="title_text_color">#000000</color>
     <color name="common_bg_color">#dedede</color>
     <color name="general_text_color">#000</color>
-    <color name="general_comment_text_color">#2E8B57</color>
+    <color name="general_comment_text_color">#B5B5B5</color>
     <color name="progress_txt_color">#333333</color>
     <color name="lexicon_name_color">#333333</color>
+    <color name="top_bar_bottom_color">#90b080</color>
+    <color name="top_bar_bg_color">#fff</color>
+    <color name="general_btn_bg_color_normal">#008B45</color>
+    <color name="general_btn_bg_color_pressed">#2F4F4F</color>
+    <color name="general_btn_txt_color">#fff</color>
+    <color name="txv_url_color_normal">#B5B5B5</color>
+    <color name="txv_url_color_pressed">#777</color>
 </resources>

@@ -10,4 +10,29 @@
         <item name="android:textColor">@color/title_text_color</item>
         <item name="android:textSize">@dimen/title_text_size</item>
     </style>
+
+    <!-- 普通字体样式 -->
+    <style name="GeneralTextTheme">
+        <item name="android:textColor">@color/general_text_color</item>
+        <item name="android:textSize">@dimen/ts_normal</item>
+    </style>
+
+    <!-- 提示信息字体样式 -->
+    <style name="CommentTextTheme">
+        <item name="android:textColor">@color/general_comment_text_color</item>
+        <item name="android:textSize">@dimen/ts_small</item>
+    </style>
+
+    <!-- 普通按钮字体样式 -->
+    <style name="GeneralButtonTextTheme">
+        <item name="android:textColor">@color/general_btn_txt_color</item>
+        <item name="android:textSize">@dimen/ts_normal</item>
+    </style>
+
+    <!-- 提示窗口出场&退场样式 -->
+    <style name="popup_animation_comment" parent="android:Animation" mce_bogus="1">
+        <item name="android:windowEnterAnimation">@anim/push_up_in</item>
+        <item name="android:windowExitAnimation">@anim/push_up_out</item>
+    </style>
+
 </resources>

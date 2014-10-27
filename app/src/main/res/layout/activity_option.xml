@@ -6,17 +6,62 @@
     <include
         android:id="@+id/title"
         layout="@layout/widget_title_base" />
-
-    <TextView
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="10dp"
-        android:layout_centerInParent="true"
-        android:text="@string/change_picture"
-        android:id="@+id/tv_change_picture"
-        android:background="@drawable/bg_button"
-        android:textSize="@dimen/ts_bigger"
-        android:padding="10dp" />
+        android:layout_below="@id/title">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:padding="10dp"
+                android:id="@+id/imgPuzzleBgWrapper"
+                android:background="@drawable/bg_game_bg_wrapper"
+                android:clickable="true">
+                <ImageView
+                    android:id="@+id/imgPuzzleBg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bg_game_sys_1"/>
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/textViewSetBgHint"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/general_line_height"
+                android:layout_below="@id/imgPuzzleBgWrapper"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="right|center"
+                android:text="@string/txt_set_bg_hint"
+                style="@style/CommentTextTheme"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:layout_below="@id/textViewSetBgHint">
+                <Button
+                    android:id="@+id/btnNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/general_line_height"
+                    android:text="@string/btn_normal_mode"
+                    android:background="@drawable/bg_general_btn"
+                    style="@style/GeneralButtonTextTheme"/>
+                <Button
+                    android:id="@+id/btnPro"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/general_line_height"
+                    android:layout_below="@id/btnNormal"
+                    android:text="@string/btn_pro_mode"
+                    android:background="@drawable/bg_general_btn"
+                    android:layout_marginTop="10dp"
+                    style="@style/GeneralButtonTextTheme"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

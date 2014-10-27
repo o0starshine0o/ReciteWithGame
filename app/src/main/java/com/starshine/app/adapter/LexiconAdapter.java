@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.starshine.app.R;
+import com.starshine.app.activity.OptionActivity;
 import com.starshine.app.activity.PuzzleActivity;
 import com.starshine.app.constant.IntentConstant;
 import com.starshine.app.model.Lexicon;
@@ -29,6 +30,9 @@ import java.util.List;
  * 选取词典的adapter
  *
  * Created by huyongsheng on 2014/6/4.
+ *
+ * Modified by SunFenggang on 2014/10/26.
+ * 修改了词库Item的显示样式，添加了进度条、进度信息、词库背景等，修改了单击跳转逻辑。
  */
 public class LexiconAdapter extends BaseAdapter implements View.OnClickListener {
     private static final int CET4_LEXICON = 0;
@@ -96,10 +100,14 @@ public class LexiconAdapter extends BaseAdapter implements View.OnClickListener 
         return convertView;
     }
 
+    /**
+     * 单击跳转至配置界面
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         int position = (Integer) v.getTag(R.string.position);
-        Intent intent = new Intent(mContext, PuzzleActivity.class);
+        Intent intent = new Intent(mContext, OptionActivity.class);
         intent.putExtra(IntentConstant.LEXICON_NAME, getItem(position).getName());
         intent.putExtra(IntentConstant.LEXICON_CODE, getItem(position).getCode());
         intent.putExtra(IntentConstant.LEXICON_TABLE_NAME, getItem(position).getTableName());
