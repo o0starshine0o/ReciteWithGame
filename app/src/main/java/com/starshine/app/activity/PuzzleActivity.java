@@ -177,10 +177,10 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
     }
 
     private void startGame() {
-//        mGameState = GAME_STATE_RUN;
+        mGameState = GAME_STATE_RUN;
         mPuzzleAdapter.randList();
         mPuzzleAdapter.initEmptyPosition();
-        mPuzzleAdapter.updateGameState();
+        mPuzzleAdapter.updateGameState(true);
         mPuzzleAdapter.notifyDataSetChanged();
         startCountdown();
     }

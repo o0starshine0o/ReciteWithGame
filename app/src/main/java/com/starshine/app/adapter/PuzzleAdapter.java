@@ -129,14 +129,17 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int position = (Integer) v.getTag(R.string.position);
+        // 如果未运行，则点击无效
+        if (isRun){
         // 检测此item是否为空格
-        if (position != mEmptyPosition) {
-            if (canExchange(position, mEmptyPosition)) {
-                exchange(position, mEmptyPosition);
-                mEmptyPosition = position;
-                notifyDataSetChanged();
-                if (isFinish()) {
-                    mListener.winGame();
+            if (position != mEmptyPosition) {
+                if (canExchange(position, mEmptyPosition)) {
+                    exchange(position, mEmptyPosition);
+                    mEmptyPosition = position;
+                    notifyDataSetChanged();
+                    if (isFinish()) {
+                        mListener.winGame();
+                    }
                 }
             }
         }
@@ -195,8 +198,8 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
         }
     }
 
-    public void updateGameState() {
-        isRun = true;
+    public void updateGameState(boolean state) {
+        isRun = state;
     }
 
     public interface GameResultListener {
