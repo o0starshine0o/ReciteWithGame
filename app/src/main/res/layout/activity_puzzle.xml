@@ -16,8 +16,8 @@
 
         <ImageView
             android:contentDescription="@string/head_portrait"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:id="@+id/iv_head_portrait"
             android:layout_marginRight="10dp"
             android:src="@drawable/head"/>
@@ -58,49 +58,66 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:id="@+id/ll_control">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/general_btn_height"
                     android:text="@string/update"
-                    android:id="@+id/tv_update"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textSize="@dimen/ts_bigger"
-                    android:textColor="@color/white"
-                    android:background="@drawable/bg_button"
-                    android:layout_weight="1"
-                    android:gravity="center"/>
+                    android:id="@+id/btnUpdate"
+                    android:background="@drawable/bg_general_btn"
+                    style="@style/GeneralButtonTextTheme"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/general_btn_height"
                     android:text="@string/start_puzzle"
-                    android:id="@+id/tv_control"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textSize="@dimen/ts_bigger"
-                    android:textColor="@color/white"
-                    android:background="@drawable/bg_button"
-                    android:layout_weight="1"
-                    android:gravity="center"/>
+                    android:id="@+id/btnControl"
+                    android:background="@drawable/bg_general_btn"
+                    android:layout_marginTop="10dp"
+                    style="@style/GeneralButtonTextTheme"/>
             </LinearLayout>
-
         </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_head_portrait"
+            android:layout_alignBottom="@+id/iv_head_portrait"
+            android:layout_toRightOf="@+id/iv_head_portrait"
+            android:id="@+id/rlGameInfo"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/general_btn_height"
+                android:id="@+id/txvBest"
+                android:gravity="center"
+                android:background="@color/general_btn_bg_color_normal"
+                style="@style/GeneralButtonTextTheme"/>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/general_btn_height"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/txvBest"
+                android:progressDrawable="@drawable/progress_bar_gaming" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/general_btn_height"
+                android:id="@+id/txvRestTime"
+                android:layout_marginTop="10dp"
+                android:textSize="@dimen/ts_normal"
+                android:gravity="center"
+                android:layout_below="@id/txvBest"
+                android:textColor="@color/txv_rest_time_color"/>
+
+        </RelativeLayout>
     </RelativeLayout>
 
     <ProgressBar
@@ -109,7 +126,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_below="@+id/rl_info"
-        android:id="@+id/pb_time"/>
+        android:id="@+id/pb_time"
+        android:visibility="gone"/>
 
     <GridView
         android:layout_width="wrap_content"

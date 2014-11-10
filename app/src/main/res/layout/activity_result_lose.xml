@@ -10,13 +10,16 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/iv_award"
-            android:src="@drawable/awards_gray"/>
+            android:src="@drawable/awards_gray"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,30 +34,28 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/general_btn_height"
         android:text="@string/give_up"
-        android:id="@+id/tv_give_up"
+        android:id="@+id/btnGiveUp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/bg_button"
-        android:textSize="@dimen/ts_bigger"
-        android:padding="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/go_on"
-        android:id="@+id/tv_continue"
+        android:background="@drawable/bg_general_error_btn"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/bg_button"
-        android:textSize="@dimen/ts_bigger"
-        android:padding="10dp" />
+        android:layout_marginLeft="20dp"
+        style="@style/GeneralButtonTextTheme"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/general_btn_height"
+        android:text="@string/go_on"
+        android:id="@+id/btnContinue"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/bg_general_btn"
+        android:layout_above="@id/btnGiveUp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        style="@style/GeneralButtonTextTheme"/>
 
 </RelativeLayout>

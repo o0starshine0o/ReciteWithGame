@@ -6,7 +6,10 @@ package com.starshine.app.constant;
  * Created by huyongsheng on 2014/5/21.
  *
  * Modified by SunFenggang on 2014/10/26.
- * 添加游戏背景类型及其相关的变量。
+ * 添加游戏背景类型及其相关的变量
+ *
+ * Modified by SunFenggang on 2014/11/10.
+ * 添加了最佳成绩相关常量名称
  */
 public class SharedPreferencesConstant {
     public static final String APP_NAME = "recite_with_game";
@@ -40,4 +43,10 @@ public class SharedPreferencesConstant {
      */
     public static final String PUZZLE_BACKGROUND_RESOURCE_ID = "puzzle_background_resource_id";
 
+    /** 最佳成绩 */
+    public static final String BEST_CET_4 = "bestCet4";
+    public static final String BEST_CET_6 = "bestCet6";
+    public static final String BEST_GRE = "bestGre";
+    public static final String BEST_IELTS = "bestIelts";
+    public static final String BEST_TOEFL = "bestToefl";
 }

@@ -5,10 +5,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.starshine.app.R;
@@ -22,10 +25,10 @@ import com.starshine.app.model.PuzzleItem;
 import com.starshine.app.model.UserInfo;
 import com.starshine.app.utils.BitmapUtils;
 import com.starshine.app.utils.DBUtils;
+import com.starshine.app.utils.DateTimeUtils;
 import com.starshine.app.utils.SharedPreferencesUtils;
 import com.starshine.app.utils.StringUtils;
 
-import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,12 @@ import java.util.List;
 /**
  * Modified by SunFenggang on 2014/10/26.
  * 修改了设定拼图背景的逻辑方法，添加了对系统内置图片的支持。
+ *
+ * Modified by SunFenggang on 2014/11/08.
+ * 修改了左上角的图片展示。
+ *
+ * Modified by SunFenggang on 2014/11/10.
+ * 修改了进度显示逻辑，以及对游戏失败和胜利等多种情况下的处理逻辑
  */
 public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameResultListener, CountdownTask.TimeUpdateListener {
     private static final String LOG_TAG = PuzzleActivity.class.getSimpleName();
@@ -42,14 +51,14 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
     private static final int GAME_STATE_RUN = 1;
     private static final int GAME_STATE_FAIL = 2;
     private static final int GAME_STATE_WIN = 3;
-    private static final int DEFAULT_TIME_LIMIT = 30;
+    private static final int DEFAULT_TIME_LIMIT = 300; // 默认模式：普通-300s
 
     private String mLexiconTitle;
     private String mTableName;
     private int mGameState;
     private UserInfo mUserInfo;
     private PuzzleAdapter mPuzzleAdapter;
-    private int mTimeLimit;
+    private int mTimeLimit, mTimeRest;
     private CountdownTask mCountdownTask;
     private Uri mPictureUri;
     private List<PuzzleItem> mList;
@@ -57,17 +66,20 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
     private ImageView mHeaderPortraitImageView;
     private TextView mScoreTextView;
     private TextView mRateTextView;
-    private ProgressBar mTimeRateBar;
-    private TextView mUpdateButton;
-    private TextView mControlButton;
+    private ProgressBar progressBar;
+    private Button mUpdateButton;
+    private Button mControlButton;
     private GridView mPuzzleGridView;
+    private RelativeLayout rlGameInfo;
+    private TextView txvBest;
+    private TextView txvRestTime;
 
     @Override
     protected void getIntentData() {
         Intent intent = getIntent();
         mLexiconTitle = intent.getStringExtra(IntentConstant.LEXICON_NAME);
         mUserInfo = (UserInfo) intent.getSerializableExtra(IntentConstant.USER_INFO);
-        mTimeLimit = intent.getIntExtra(IntentConstant.TIME_LIMIT, DEFAULT_TIME_LIMIT) * 100;
+        mTimeLimit = intent.getIntExtra(IntentConstant.TIME_LIMIT, DEFAULT_TIME_LIMIT);
         mTableName = intent.getStringExtra(IntentConstant.LEXICON_TABLE_NAME);
         // TODO delete mock data
         mUserInfo = new UserInfo();
@@ -94,11 +106,15 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
         mHeaderPortraitImageView = (ImageView) findViewById(R.id.iv_head_portrait);
         mScoreTextView = (TextView) findViewById(R.id.tv_score);
         mRateTextView = (TextView) findViewById(R.id.tv_rate);
-        mTimeRateBar = (ProgressBar) findViewById(R.id.pb_time);
-        mTimeRateBar.setMax(mTimeLimit);
-        mUpdateButton = (TextView) findViewById(R.id.tv_update);
-        mControlButton = (TextView) findViewById(R.id.tv_control);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setMax(mTimeLimit);
+        mGameState = GAME_STATE_INIT;
+        mUpdateButton = (Button) findViewById(R.id.btnUpdate);
+        mControlButton = (Button) findViewById(R.id.btnControl);
         mPuzzleGridView = (GridView) findViewById(R.id.gv_puzzle);
+        rlGameInfo = (RelativeLayout) findViewById(R.id.rlGameInfo);
+        txvBest = (TextView) findViewById(R.id.txvBest);
+        txvRestTime = (TextView) findViewById(R.id.txvRestTime);
         setOnClickListener(mUpdateButton, mControlButton);
     }
 
@@ -120,12 +136,23 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
                         SharedPreferencesConstant.PUZZLE_BACKGROUND_RESOURCE_ID,
                         SetGameBgActivity.SYS_GAME_BGS[0]);
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), resId);
-                updateItemBitmap(bitmap);
+                updateItemBitmap(bitmap); // 设定游戏背景图
+                mHeaderPortraitImageView.setImageBitmap(bitmap); // 设定左上角的图片
                 break;
             case SharedPreferencesConstant.PUZZLE_BACKGROUND_TYPE_CUSTOM:
                 /* 背景图为用户自定义图片 */
-                updateItemUri(Uri.parse(SharedPreferencesUtils.getString(this, SharedPreferencesConstant.APP_NAME,
-                        SharedPreferencesConstant.PUZZLE_BACKGROUND_URI, "")));
+                String uri = SharedPreferencesUtils.getString(this, SharedPreferencesConstant.APP_NAME,
+                        SharedPreferencesConstant.PUZZLE_BACKGROUND_URI, "");
+                updateItemUri(Uri.parse(uri)); // 设定游戏背景
+                if (!StringUtils.isNullOrEmpty(uri)) { // 设定左上角的图片
+                    /* 存在本地图片，使用本地图片 */
+                    mHeaderPortraitImageView.setImageBitmap(
+                            BitmapUtils.getBitmapByUri(PuzzleActivity.this, Uri.parse(uri)));
+                } else {
+                    /* 不存在本地图片，使用系统默认的第一幅图 */
+                    mHeaderPortraitImageView.setImageBitmap(
+                            BitmapFactory.decodeResource(getResources(), R.drawable.bg_game_sys_1));
+                }
                 break;
         }
 
@@ -163,9 +190,9 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_update:
+            case R.id.btnUpdate:
                 break;
-            case R.id.tv_control:
+            case R.id.btnControl:
                 if (mGameState == GAME_STATE_INIT) {
                     startGame();
                 }
@@ -177,6 +204,28 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
     }
 
     private void startGame() {
+        // 显示出游戏信息面板
+        rlGameInfo.setVisibility(View.VISIBLE);
+        String sharedBest = SharedPreferencesConstant.BEST_CET_4;
+        if (mTableName.equals("lexicon_cet_4")) {
+            sharedBest = SharedPreferencesConstant.BEST_CET_4;
+        } else if (mTableName.equals("lexicon_cet_6")) {
+            sharedBest = SharedPreferencesConstant.BEST_CET_6;
+        } else if (mTableName.equals("lexicon_gre")) {
+            sharedBest = SharedPreferencesConstant.BEST_GRE;
+        } else if (mTableName.equals("lexicon_ielts")) {
+            sharedBest = SharedPreferencesConstant.BEST_IELTS;
+        } else if (mTableName.equals("lexicon_toefl")) {
+            sharedBest = SharedPreferencesConstant.BEST_TOEFL;
+        }
+        int bestInfo = SharedPreferencesUtils.getInt(PuzzleActivity.this,
+                SharedPreferencesConstant.APP_NAME, sharedBest, -1);
+        if (bestInfo < 0) { // 没有最佳纪录
+            txvBest.setText("最佳：暂无");
+        } else {
+            txvBest.setText("最佳：" + DateTimeUtils.secondsToFormattedString(bestInfo));
+        }
+
         mGameState = GAME_STATE_RUN;
         mPuzzleAdapter.randList();
         mPuzzleAdapter.initEmptyPosition();
@@ -192,22 +241,55 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
 
     @Override
     public void winGame() {
+        int usedTime = mTimeLimit - mTimeRest; // 计算用时
+
         Intent intent = new Intent();
         intent.setClass(this, ResultWinActivity.class);
-        startActivityForResult(intent, RequestConstant.PUZZLE_ACTIVITY_CODE);
+        Bundle bundle = new Bundle();
+        bundle.putInt(IntentConstant.CONSUME_TIME, usedTime);
+        intent.putExtras(bundle);
+        String sharedBest = SharedPreferencesConstant.BEST_CET_4;
+        if (mTableName.equals("lexicon_cet_4")) {
+            sharedBest = SharedPreferencesConstant.BEST_CET_4;
+        } else if (mTableName.equals("lexicon_cet_6")) {
+            sharedBest = SharedPreferencesConstant.BEST_CET_6;
+        } else if (mTableName.equals("lexicon_gre")) {
+            sharedBest = SharedPreferencesConstant.BEST_GRE;
+        } else if (mTableName.equals("lexicon_ielts")) {
+            sharedBest = SharedPreferencesConstant.BEST_IELTS;
+        } else if (mTableName.equals("lexicon_toefl")) {
+            sharedBest = SharedPreferencesConstant.BEST_TOEFL;
+        }
+        // 获取本地保存的最佳纪录
+        int bestInfo = SharedPreferencesUtils.getInt(PuzzleActivity.this,
+                SharedPreferencesConstant.APP_NAME, sharedBest, -1);
+        // 比较并重新对最佳纪录进行赋值
+        bestInfo = bestInfo < 0 ? usedTime : bestInfo <= usedTime ? bestInfo : usedTime;
+        // 保存到本地
+        SharedPreferencesUtils.save(PuzzleActivity.this, SharedPreferencesConstant.APP_NAME,
+                sharedBest, bestInfo);
+        startActivityForResult(intent, RequestConstant.START_TO_PUZZLE_WIN_ACTIVITY_REQUEST);
     }
 
+    /**
+     * 游戏失败，跳转至失败界面
+     */
     private void loseGame() {
         Intent intent = new Intent();
         intent.setClass(this, ResultLoseActivity.class);
-        startActivityForResult(intent, RequestConstant.PUZZLE_ACTIVITY_CODE);
+        startActivityForResult(intent, RequestConstant.START_TO_PUZZLE_LOSE_ACTIVITY_REQUEST);
     }
 
     @Override
     public void onTimeUpdate(int time) {
+       mTimeRest = time; // 记录剩余时间
         if (time > 0) {
-            mTimeRateBar.setProgress(time);
-        } else {
+            progressBar.setProgress(time);
+            // 显示剩余时间
+            txvRestTime.setText(DateTimeUtils.secondsToFormattedString(time));
+        } else { // 游戏失败
+            progressBar.setProgress(0);
+            txvRestTime.setText(DateTimeUtils.secondsToFormattedString(0));
             loseGame();
         }
     }
@@ -222,11 +304,62 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RequestConstant.BASE_ACTIVITY_GET_PICTURE_CODE) {
-            if (resultCode == RESULT_OK) {
-                mPictureUri = data.getData();
-                updateItemUri(mPictureUri);
-            }
+        switch (requestCode) {
+            case RequestConstant.BASE_ACTIVITY_GET_PICTURE_CODE:
+                if (resultCode == RESULT_OK) {
+                    mPictureUri = data.getData();
+                    updateItemUri(mPictureUri);
+                }
+                break;
+            case RequestConstant.START_TO_PUZZLE_LOSE_ACTIVITY_REQUEST: // 从失败界面返回
+                if (resultCode == RESULT_OK) {
+                    boolean isContinue = data.getBooleanExtra(
+                            IntentConstant.ACTIVITY_RESULT_INTENT_CONTINUE, false);
+                    if (isContinue) { // 如果继续，则隐藏当前进度信息，让用户可以点击“开始”
+                        rlGameInfo.setVisibility(View.GONE);
+                        mGameState = GAME_STATE_INIT; // 重置游戏状态
+                        break;
+                    }
+                    boolean isGiveUp = data.getBooleanExtra(
+                            IntentConstant.ACTIVITY_RESULT_INTENT_GIVE_UP, false);
+                    if (isGiveUp) { // 如果放弃，则关闭当前页面，并向上级activity发送intent数据
+                        //获取启动该Activity之间的Activity对应的Intent
+                        Intent intent = getIntent();
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean(IntentConstant.ACTIVITY_RESULT_INTENT_GIVE_UP, true);
+                        intent.putExtras(bundle);
+                        //设置该Activity的结果码，并设置结束之后退回的Activity
+                        setResult(RESULT_OK, intent);
+                        //结束FollowListActivity
+                        PuzzleActivity.this.finish();
+                    }
+                }
+                break;
+            case RequestConstant.START_TO_PUZZLE_WIN_ACTIVITY_REQUEST: // 从胜利界面返回
+                if (resultCode == RESULT_OK) {
+                    boolean isContinue = data.getBooleanExtra(
+                            IntentConstant.ACTIVITY_RESULT_INTENT_CONTINUE, false);
+                    if (isContinue) { // 如果继续，则隐藏当前进度信息，让用户可以点击“开始”
+                        rlGameInfo.setVisibility(View.GONE);
+                        mGameState = GAME_STATE_INIT; // 重置游戏状态
+                        initData(); // 重置游戏数据
+                        break;
+                    }
+                    boolean isBackToHome = data.getBooleanExtra(
+                            IntentConstant.ACTIVITY_RESULT_INTENT_BACK_TO_HOME, false);
+                    if (isBackToHome) { // 返回到主界面
+                        //获取启动该Activity之间的Activity对应的Intent
+                        Intent intent = getIntent();
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean(IntentConstant.ACTIVITY_RESULT_INTENT_BACK_TO_HOME, true);
+                        intent.putExtras(bundle);
+                        //设置该Activity的结果码，并设置结束之后退回的Activity
+                        setResult(RESULT_OK, intent);
+                        //结束FollowListActivity
+                        PuzzleActivity.this.finish();
+                    }
+                }
+                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

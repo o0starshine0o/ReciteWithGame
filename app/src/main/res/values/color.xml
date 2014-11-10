@@ -14,7 +14,10 @@
     <color name="top_bar_bg_color">#fff</color>
     <color name="general_btn_bg_color_normal">#008B45</color>
     <color name="general_btn_bg_color_pressed">#2F4F4F</color>
+    <color name="general_btn_error_bg_color_normal">#FF6666</color>
+    <color name="general_btn_error_bg_color_pressed">#CC0000</color>
     <color name="general_btn_txt_color">#fff</color>
     <color name="txv_url_color_normal">#B5B5B5</color>
     <color name="txv_url_color_pressed">#777</color>
+    <color name="txv_rest_time_color">#ff6</color>
 </resources>

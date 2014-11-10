@@ -2,7 +2,6 @@ package com.starshine.app.activity;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -23,8 +22,11 @@ import java.net.URI;
 /**
  * Modified by SunFenggang on 2014/10/26.
  * 基本重写了这个页面，添加了：
- *   1.当前选用的背景图的显示
- *   2.模式选择：正常模式-5分钟；挑战模式-2分钟
+ *     1.当前选用的背景图的显示
+ *     2.模式选择：正常模式-5分钟；挑战模式-2分钟
+ *
+ * Modified bt SunFenggang on 2014/11/10.
+ * 添加了onActivityResult中的多种返回情况及相应处理
  */
 public class OptionActivity extends BaseActivity {
     private static final String LOG_TAG = OptionActivity.class.getSimpleName();
@@ -118,6 +120,23 @@ public class OptionActivity extends BaseActivity {
                     SharedPreferencesUtils.save(this, SharedPreferencesConstant.APP_NAME, SharedPreferencesConstant.PUZZLE_BACKGROUND_URI, mPictureUri.toString());
                     LogUtils.d(LOG_TAG, "图片URI是：", mPictureUri.toString());
                     finish();
+                    break;
+                case RequestConstant.START_TO_PUZZLE_ACTIVITY_REQUEST:
+                    boolean isGiveUp = data.getBooleanExtra(
+                            IntentConstant.ACTIVITY_RESULT_INTENT_GIVE_UP, false);
+                    if (isGiveUp) {
+                        // 放弃游戏，关闭当前界面
+                        OptionActivity.this.finish();
+                        break;
+                    }
+                    boolean isBackToHome = data.getBooleanExtra(
+                            IntentConstant.ACTIVITY_RESULT_INTENT_BACK_TO_HOME, false);
+                    if (isBackToHome) {
+                        // 返回词库界面，关闭当前界面
+                        OptionActivity.this.finish();
+                        break;
+                    }
+                    break;
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -169,6 +188,6 @@ public class OptionActivity extends BaseActivity {
         intent.putExtra(IntentConstant.LEXICON_NAME, mLexiconTitle);
         intent.putExtra(IntentConstant.LEXICON_TABLE_NAME, mTableName);
         intent.putExtra(IntentConstant.TIME_LIMIT, seconds);
-        startActivity(intent);
+        startActivityForResult(intent, RequestConstant.START_TO_PUZZLE_ACTIVITY_REQUEST);
     }
 }

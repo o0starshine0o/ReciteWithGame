@@ -20,7 +20,8 @@
     <string name="start_puzzle">开始拼图</string>
     <string name="go_on">继续</string>
     <string name="give_up">放弃</string>
-    <string name="win_tip">本次单词拼图用时：%1$s秒,领先全国%2$s的用户。特发此奖，以资鼓励。</string>
+    <string name="show">炫耀</string>
+    <string name="win_tip">本次单词拼图用时：%1$s,领先全国%2$s的用户。特发此奖，以资鼓励。</string>
     <string name="lose_tip">本次挑战失败。别灰心，再接再厉啊！</string>
 
     <!-- title -->

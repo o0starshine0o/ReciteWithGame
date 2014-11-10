@@ -8,9 +8,13 @@ import com.starshine.app.utils.LogUtils;
  * 拼图计时器
  *
  * Created by huyongsheng on 2014/6/3.
+ *
+ * Modified by SunFengggang on 2014/11/9.
+ * 修改了计时时间（每一秒刷新一次界面）
+ *
  */
 public class CountdownTask extends AsyncTask<Integer, Integer, String> {
-    private static final int CENTISECOND = 10;
+    private static final int SECOND = 1000;
     private String tag = CountdownTask.class.getSimpleName();
 
     private int mTimeLimit;
@@ -31,7 +35,7 @@ public class CountdownTask extends AsyncTask<Integer, Integer, String> {
         {
             publishProgress(mTimeLimit);
             try {
-                Thread.sleep(CENTISECOND);
+                Thread.sleep(SECOND);
                 mTimeLimit--;
             } catch (InterruptedException e) {
                 StringBuffer log = new StringBuffer();

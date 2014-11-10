@@ -4,6 +4,9 @@ package com.starshine.app.constant;
  * intent 常量
  *
  * Created by huyongsheng on 2014/5/21.
+ *
+ * Modified by SunFenggang on 2014/11/10.
+ * 添加了是否继续、是否放弃、返回主界面等多个参数常量值
  */
 public class IntentConstant {
     public static final String LEXICON_NAME = "lexicon_name";
@@ -14,4 +17,11 @@ public class IntentConstant {
     public static final String PERCENT = "percent";
     public static final String TIME_LIMIT = "time_limit";
     public static final String PICTURE_URI = "picture_uri";
+
+    /** 失败：是否继续 */
+    public static final String ACTIVITY_RESULT_INTENT_CONTINUE = "activityResultIntentContinue";
+    /** 失败：是否放弃 */
+    public static final String ACTIVITY_RESULT_INTENT_GIVE_UP = "activityResultIntentGiveUp";
+    /** 胜利：返回主界面 */
+    public static final String ACTIVITY_RESULT_INTENT_BACK_TO_HOME = "activityResultIntentBackToHome";
 }

@@ -47,18 +47,18 @@
                 <Button
                     android:id="@+id/btnNormal"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/general_line_height"
+                    android:layout_height="@dimen/general_btn_height"
                     android:text="@string/btn_normal_mode"
                     android:background="@drawable/bg_general_btn"
                     style="@style/GeneralButtonTextTheme"/>
                 <Button
                     android:id="@+id/btnPro"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/general_line_height"
+                    android:layout_height="@dimen/general_btn_height"
                     android:layout_below="@id/btnNormal"
                     android:text="@string/btn_pro_mode"
                     android:background="@drawable/bg_general_btn"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     style="@style/GeneralButtonTextTheme"/>
             </RelativeLayout>
         </RelativeLayout>
