@@ -1,6 +1,7 @@
 package com.starshine.app.asynctask;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.starshine.app.utils.LogUtils;
 
@@ -42,6 +43,7 @@ public class CountdownTask extends AsyncTask<Integer, Integer, String> {
                 log.append("Thread sleep error:");
                 log.append(e.getStackTrace());
                 LogUtils.e(tag,log.toString());
+                return null;
             }
         }
         return null;

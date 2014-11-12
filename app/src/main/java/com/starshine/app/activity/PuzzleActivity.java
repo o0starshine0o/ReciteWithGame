@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -212,6 +213,7 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
         // 显示出游戏信息面板
         rlGameInfo.setVisibility(View.VISIBLE);
         llGameControl.setVisibility(View.GONE);
+        progressBar.setMax(mTimeLimit);
         String sharedBest = SharedPreferencesConstant.BEST_CET_4;
         if (mTableName.equals("lexicon_cet_4")) {
             sharedBest = SharedPreferencesConstant.BEST_CET_4;
@@ -289,7 +291,8 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
 
     @Override
     public void onTimeUpdate(int time) {
-       mTimeRest = time; // 记录剩余时间
+        Log.i("......time count.:", time +"");
+        mTimeRest = time; // 记录剩余时间
         if (time > 0) {
             progressBar.setProgress(time);
             // 显示剩余时间
