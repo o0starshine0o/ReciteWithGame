@@ -1,7 +1,9 @@
 package com.starshine.app.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.starshine.app.R;
+import com.starshine.app.constant.SharedPreferencesConstant;
 import com.starshine.app.model.PuzzleItem;
 import com.starshine.app.utils.BitmapUtils;
 import com.starshine.app.utils.DeviceUtils;
+import com.starshine.app.utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +28,9 @@ import java.util.List;
  * 拼图的adapter
  *
  * @author huyongsheng 2014-05-22
+ *
+ * Modified by SunFenggang on 2014/11/12.
+ * 修改了游戏结束判断函数，消除了判断错误的bug
  */
 public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
     private static final int COLUMNS = 3;
@@ -34,10 +41,13 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
     private int mEmptyPosition;
     private Context mContext;
     private GameResultListener mListener;
+    private int color;
 
     public PuzzleAdapter(Context context, GameResultListener listener) {
         mContext = context;
         mListener = listener;
+        color = SharedPreferencesUtils.getInt(context, SharedPreferencesConstant.APP_NAME,
+                SharedPreferencesConstant.PUZZLE_TEXT_COLOR, Color.WHITE);
     }
 
     public void setData(List<PuzzleItem> list) {
@@ -107,7 +117,7 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
                 initHolder.bgView.setImageBitmap(null);
             } else {
                 initHolder.word0.setText(getItem(position).getCnWord());
-                initHolder.word0.setTextColor(mContext.getResources().getColor(R.color.white));
+                initHolder.word0.setTextColor(color);
                 initHolder.bgView.setImageBitmap(mList.get(position).getBitmap());
             }
         } else {
@@ -118,6 +128,8 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
             } else {
                 initHolder.word1.setText(getItem(position).getEnWord());
                 initHolder.word2.setText(getItem(position).getCnWord());
+                initHolder.word1.setTextColor(color);
+                initHolder.word2.setTextColor(color);
                 initHolder.bgView.setImageBitmap(mList.get(position).getBitmap());
             }
         }
@@ -174,7 +186,8 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
 
     private boolean isFinish() {
         boolean isFinish = true;
-        for (int i = 0; i < mList.size(); i++) {
+        int len = mList.size() - 1; // 最后一个小块不需要判断
+        for (int i = 0; i < len; i++) {
             if (mList.get(i) == null) {
                 continue;
             } else if (mList.get(i).getInitPosition() != i) {
@@ -182,6 +195,7 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
                 break;
             }
         }
+        Log.i("isFinish", isFinish+"");
         return isFinish;
     }
 

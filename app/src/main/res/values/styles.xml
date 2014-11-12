@@ -35,4 +35,9 @@
         <item name="android:windowExitAnimation">@anim/push_up_out</item>
     </style>
 
+    <style parent="Theme.Base.AppCompat.Dialog.Light.FixedSize" name="Theme.SelectColorDialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">#ffffff</item>
+    </style>
 </resources>

@@ -1,17 +1,20 @@
 package com.starshine.app.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.starshine.app.R;
 import com.starshine.app.constant.IntentConstant;
 import com.starshine.app.constant.RequestConstant;
 import com.starshine.app.constant.SharedPreferencesConstant;
+import com.starshine.app.dialog.SelectColorDialog;
 import com.starshine.app.model.UserInfo;
 import com.starshine.app.utils.LogUtils;
 import com.starshine.app.utils.SharedPreferencesUtils;
@@ -39,6 +42,9 @@ public class OptionActivity extends BaseActivity {
     private String mLexiconTitle, mTableName;
     private UserInfo mUserInfo;
     private int mCode;
+    private TextView txvColor;
+    private TextView txvSetColor;
+    private RelativeLayout relativeLayoutSetTextColor;
 
     @Override
     protected void getIntentData() {
@@ -67,6 +73,9 @@ public class OptionActivity extends BaseActivity {
         imgPuzzleBgWrapper = (RelativeLayout) findViewById(R.id.imgPuzzleBgWrapper);
         btnNormal = (Button) findViewById(R.id.btnNormal);
         btnPro = (Button) findViewById(R.id.btnPro);
+        txvColor = (TextView) findViewById(R.id.txvColor);
+        txvSetColor = (TextView) findViewById(R.id.txvSetColor);
+        relativeLayoutSetTextColor = (RelativeLayout) findViewById(R.id.relativeLayoutSetTextColor);
 
         ViewTreeObserver vto = imgPuzzleBg.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -82,7 +91,7 @@ public class OptionActivity extends BaseActivity {
             }
         });
 
-        setOnClickListener(imgPuzzleBgWrapper, btnNormal, btnPro);
+        setOnClickListener(imgPuzzleBgWrapper, btnNormal, btnPro, relativeLayoutSetTextColor);
     }
 
     @Override
@@ -104,6 +113,11 @@ public class OptionActivity extends BaseActivity {
             case R.id.btnPro:
                 /* 跳转到PuzzleActivity，挑战模式，120s */
                 startActivityToPuzzle(120);
+                break;
+            case R.id.relativeLayoutSetTextColor:
+                /* 设定字体颜色 */
+                Intent intentSetColor = new Intent(this, SelectColorDialog.class);
+                startActivityForResult(intentSetColor, RequestConstant.SELECT_COLOR_REQUEST);
                 break;
             default:
                 super.onClick(v);
@@ -135,6 +149,22 @@ public class OptionActivity extends BaseActivity {
                         // 返回词库界面，关闭当前界面
                         OptionActivity.this.finish();
                         break;
+                    }
+                    break;
+                case RequestConstant.SELECT_COLOR_REQUEST: // 设定颜色
+                    if (resultCode == RESULT_OK) {
+                        int color = data.getIntExtra(IntentConstant.SELECT_COLOR_VALUE, Color.WHITE);
+                        if (color == Color.WHITE) {
+                            txvSetColor.setText("游戏文字颜色：白色");
+                            txvColor.setBackgroundColor(Color.WHITE);
+                            SharedPreferencesUtils.save(this, SharedPreferencesConstant.APP_NAME,
+                                    SharedPreferencesConstant.PUZZLE_TEXT_COLOR, Color.WHITE);
+                        } else {
+                            txvSetColor.setText("游戏文字颜色：黑色");
+                            txvColor.setBackgroundColor(Color.BLACK);
+                            SharedPreferencesUtils.save(this, SharedPreferencesConstant.APP_NAME,
+                                    SharedPreferencesConstant.PUZZLE_TEXT_COLOR, Color.BLACK);
+                        }
                     }
                     break;
             }
@@ -180,6 +210,16 @@ public class OptionActivity extends BaseActivity {
             }
         }
 
+        /* 设定字体颜色 */
+        if (SharedPreferencesUtils.getInt(OptionActivity.this,
+                SharedPreferencesConstant.APP_NAME, SharedPreferencesConstant.PUZZLE_TEXT_COLOR,
+                Color.WHITE) == Color.WHITE) {
+            txvSetColor.setText("游戏文字颜色：白色");
+            txvColor.setBackgroundColor(Color.WHITE);
+        } else {
+            txvSetColor.setText("游戏文字颜色：黑色");
+            txvColor.setBackgroundColor(Color.BLACK);
+        }
     }
 
     private void startActivityToPuzzle(int seconds) {

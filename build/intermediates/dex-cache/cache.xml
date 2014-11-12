@@ -2,28 +2,28 @@
 <pre-dex-items>
 
     <item
-        dex="D:\program\ReciteWithGame\app\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-a63b7d6604f04abd47bd6430b0e635cdb36f0bd0.jar"
-        jar="E:\Program Files\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
-    <item
-        dex="D:\program\ReciteWithGame\app\build\intermediates\pre-dexed\debug\classes-8f340a489035a3a042c0ddca3187a85a9adf7a2b.jar"
-        jar="D:\program\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
+        dex="C:\Users\11\AndroidStudioForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\debug\classes-6fda38180f71c28c959b07779937eb01c9666b16.jar"
+        jar="C:\Users\11\AndroidStudioForReciteWithGame\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
     <item
-        dex="D:\program\ReciteWithGame\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-5896168af6a5380b24a6d4d562c55c57ee1f62f5.jar"
-        jar="D:\program\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
+        dex="C:\Users\11\AndroidStudioForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\debug\classes-0d528db008ce1b47748f9bae1b02475e88bf7120.jar"
+        jar="C:\Users\11\AndroidStudioForReciteWithGame\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\20.0.0\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef"/>
+    <item
+        dex="C:\Users\11\AndroidStudioForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-058a5ef8e86579bcca9138c8b3ae4d1d14bc9682.jar"
+        jar="C:\Users\11\AndroidStudioForReciteWithGame\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
     <item
-        dex="D:\program\ReciteWithGame\app\build\intermediates\pre-dexed\debug\classes-fae734f164c406bf9d4394ca876b6b8db1d294f3.jar"
-        jar="D:\program\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\20.0.0\classes.jar"
+        dex="C:\Users\11\AndroidStudioForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-0e6781c0fa03318a9a7a2941c416d5a36d0fcff1.jar"
+        jar="C:\Users\11\AppData\Local\Android\android-studio1\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef"/>
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
 
 </pre-dex-items>

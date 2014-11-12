@@ -24,4 +24,6 @@ public class IntentConstant {
     public static final String ACTIVITY_RESULT_INTENT_GIVE_UP = "activityResultIntentGiveUp";
     /** 胜利：返回主界面 */
     public static final String ACTIVITY_RESULT_INTENT_BACK_TO_HOME = "activityResultIntentBackToHome";
+    /** 选定颜色 */
+    public static final String SELECT_COLOR_VALUE = "selectColorValue";
 }

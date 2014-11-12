@@ -22,4 +22,6 @@ public class RequestConstant {
     /** 跳转到游戏胜利界面 */
     public static final int START_TO_PUZZLE_WIN_ACTIVITY_REQUEST = 103;
 
+    /** 选择颜色 */
+    public static final int SELECT_COLOR_REQUEST = 104;
 }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,6 +72,7 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
     private Button mControlButton;
     private GridView mPuzzleGridView;
     private RelativeLayout rlGameInfo;
+    private LinearLayout llGameControl;
     private TextView txvBest;
     private TextView txvRestTime;
 
@@ -115,6 +117,8 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
         rlGameInfo = (RelativeLayout) findViewById(R.id.rlGameInfo);
         txvBest = (TextView) findViewById(R.id.txvBest);
         txvRestTime = (TextView) findViewById(R.id.txvRestTime);
+        llGameControl = (LinearLayout) findViewById(R.id.ll_control);
+
         setOnClickListener(mUpdateButton, mControlButton);
     }
 
@@ -191,6 +195,7 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnUpdate:
+                initData();
                 break;
             case R.id.btnControl:
                 if (mGameState == GAME_STATE_INIT) {
@@ -206,6 +211,7 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
     private void startGame() {
         // 显示出游戏信息面板
         rlGameInfo.setVisibility(View.VISIBLE);
+        llGameControl.setVisibility(View.GONE);
         String sharedBest = SharedPreferencesConstant.BEST_CET_4;
         if (mTableName.equals("lexicon_cet_4")) {
             sharedBest = SharedPreferencesConstant.BEST_CET_4;
@@ -248,6 +254,7 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
         Bundle bundle = new Bundle();
         bundle.putInt(IntentConstant.CONSUME_TIME, usedTime);
         intent.putExtras(bundle);
+
         String sharedBest = SharedPreferencesConstant.BEST_CET_4;
         if (mTableName.equals("lexicon_cet_4")) {
             sharedBest = SharedPreferencesConstant.BEST_CET_4;
@@ -317,6 +324,7 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
                             IntentConstant.ACTIVITY_RESULT_INTENT_CONTINUE, false);
                     if (isContinue) { // 如果继续，则隐藏当前进度信息，让用户可以点击“开始”
                         rlGameInfo.setVisibility(View.GONE);
+                        llGameControl.setVisibility(View.VISIBLE);
                         mGameState = GAME_STATE_INIT; // 重置游戏状态
                         break;
                     }
@@ -341,6 +349,7 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
                             IntentConstant.ACTIVITY_RESULT_INTENT_CONTINUE, false);
                     if (isContinue) { // 如果继续，则隐藏当前进度信息，让用户可以点击“开始”
                         rlGameInfo.setVisibility(View.GONE);
+                        llGameControl.setVisibility(View.VISIBLE);
                         mGameState = GAME_STATE_INIT; // 重置游戏状态
                         initData(); // 重置游戏数据
                         break;

@@ -49,4 +49,7 @@ public class SharedPreferencesConstant {
     public static final String BEST_GRE = "bestGre";
     public static final String BEST_IELTS = "bestIelts";
     public static final String BEST_TOEFL = "bestToefl";
+
+    /** 游戏字体颜色 */
+    public static final String PUZZLE_TEXT_COLOR = "puzzleTextColor";
 }

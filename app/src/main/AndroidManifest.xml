@@ -37,6 +37,11 @@
             android:name="com.starshine.app.activity.SetGameBgActivity"
             android:label="@string/title_activity_set_game_bg" >
         </activity>
+        <activity
+            android:theme="@style/Theme.SelectColorDialog"
+            android:name="com.starshine.app.dialog.SelectColorDialog"
+            android:label="@string/title_activity_set_game_bg" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
