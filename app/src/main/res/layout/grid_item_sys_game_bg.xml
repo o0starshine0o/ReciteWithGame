@@ -12,7 +12,9 @@
             android:id="@+id/imvBg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_border_single"
+            android:padding="1dp"/>
     </com.starshine.app.view.SquareLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,6 +30,6 @@
             android:src="@drawable/img_selected"
             android:layout_marginRight="3dp"
             android:visibility="invisible"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
 </RelativeLayout>
