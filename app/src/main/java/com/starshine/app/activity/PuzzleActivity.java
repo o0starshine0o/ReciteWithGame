@@ -291,7 +291,6 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
 
     @Override
     public void onTimeUpdate(int time) {
-        Log.i("......time count.:", time +"");
         mTimeRest = time; // 记录剩余时间
         if (time > 0) {
             progressBar.setProgress(time);

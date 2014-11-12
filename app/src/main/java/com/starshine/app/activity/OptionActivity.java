@@ -153,17 +153,17 @@ public class OptionActivity extends BaseActivity {
                     break;
                 case RequestConstant.SELECT_COLOR_REQUEST: // 设定颜色
                     if (resultCode == RESULT_OK) {
-                        int color = data.getIntExtra(IntentConstant.SELECT_COLOR_VALUE, Color.WHITE);
-                        if (color == Color.WHITE) {
-                            txvSetColor.setText("游戏文字颜色：白色");
-                            txvColor.setBackgroundColor(Color.WHITE);
-                            SharedPreferencesUtils.save(this, SharedPreferencesConstant.APP_NAME,
-                                    SharedPreferencesConstant.PUZZLE_TEXT_COLOR, Color.WHITE);
-                        } else {
+                        int color = data.getIntExtra(IntentConstant.SELECT_COLOR_VALUE, Color.BLACK);
+                        if (color == Color.BLACK) {
                             txvSetColor.setText("游戏文字颜色：黑色");
                             txvColor.setBackgroundColor(Color.BLACK);
                             SharedPreferencesUtils.save(this, SharedPreferencesConstant.APP_NAME,
                                     SharedPreferencesConstant.PUZZLE_TEXT_COLOR, Color.BLACK);
+                        } else {
+                            txvSetColor.setText("游戏文字颜色：白色");
+                            txvColor.setBackgroundColor(Color.WHITE);
+                            SharedPreferencesUtils.save(this, SharedPreferencesConstant.APP_NAME,
+                                    SharedPreferencesConstant.PUZZLE_TEXT_COLOR, Color.WHITE);
                         }
                     }
                     break;
@@ -213,12 +213,12 @@ public class OptionActivity extends BaseActivity {
         /* 设定字体颜色 */
         if (SharedPreferencesUtils.getInt(OptionActivity.this,
                 SharedPreferencesConstant.APP_NAME, SharedPreferencesConstant.PUZZLE_TEXT_COLOR,
-                Color.WHITE) == Color.WHITE) {
-            txvSetColor.setText("游戏文字颜色：白色");
-            txvColor.setBackgroundColor(Color.WHITE);
-        } else {
+                Color.BLACK) == Color.BLACK) {
             txvSetColor.setText("游戏文字颜色：黑色");
             txvColor.setBackgroundColor(Color.BLACK);
+        } else {
+            txvSetColor.setText("游戏文字颜色：白色");
+            txvColor.setBackgroundColor(Color.WHITE);
         }
     }
 

@@ -2,7 +2,6 @@ package com.starshine.app.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +15,13 @@ import android.widget.TextView;
 import com.starshine.app.R;
 import com.starshine.app.constant.SharedPreferencesConstant;
 import com.starshine.app.model.PuzzleItem;
-import com.starshine.app.utils.BitmapUtils;
 import com.starshine.app.utils.DeviceUtils;
 import com.starshine.app.utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 拼图的adapter
@@ -47,7 +46,7 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
         mContext = context;
         mListener = listener;
         color = SharedPreferencesUtils.getInt(context, SharedPreferencesConstant.APP_NAME,
-                SharedPreferencesConstant.PUZZLE_TEXT_COLOR, Color.WHITE);
+                SharedPreferencesConstant.PUZZLE_TEXT_COLOR, Color.BLACK);
     }
 
     public void setData(List<PuzzleItem> list) {
@@ -55,6 +54,8 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
             mOriginalList.add(index, list.get(index));
         }
         mList = list;
+        // 设定最后一个小块的initPosition为-1，否则在isFinish判断中会造成误判
+        mList.get(mList.size()-1).setInitPosition(-1);
     }
 
     @Override
@@ -186,7 +187,7 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
 
     private boolean isFinish() {
         boolean isFinish = true;
-        int len = mList.size() - 1; // 最后一个小块不需要判断
+        int len = mList.size() - 1; // 只检测1-8小块
         for (int i = 0; i < len; i++) {
             if (mList.get(i) == null) {
                 continue;
@@ -195,12 +196,87 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
                 break;
             }
         }
-        Log.i("isFinish", isFinish+"");
+
         return isFinish;
     }
 
     public void randList() {
-        Collections.shuffle(mList);
+        List<PuzzleItem> tmpList;
+        tmpList = new ArrayList<PuzzleItem>();
+        for(int i=0;i<=8;i++) {
+            tmpList.add(i, mList.get(i));
+        }
+        int serialnum[] = { 2,3,5,1,8,7,6,4,0};
+        serialnum = changegame(serialnum);
+        for(int i=0;i<=8;i++) {
+            mList.set(i, tmpList.get(serialnum[i]));
+        }
+    }
+
+    int[] changegame(int[] serialnum) {
+		/*
+		 * { int i=0; int sum=0, tmpnum,tmpindex; for(i=0;i<=8;i++){
+		 * if(serialnum[i]!=0){ for(int j=i+1;j<=8;j++){
+		 * if(serialnum[j]<serialnum[i]&&serialnum[j]!=0){ sum++; } } } }
+		 * if(sum%2!=0){ tmpnum = serialnum[0]; tmpindex=0; for(int
+		 * j=1;j<=8;j++){ if(tmpnum<serialnum[j]){
+		 * serialnum[tmpindex]=serialnum[j]; serialnum[j]=tmpnum; break; } else
+		 * if(tmpnum<serialnum[j]){ tmpnum=serialnum[j]; tmpindex = j; } } }}
+		 */
+        int count = 0;
+        int direction[] = new int[20];
+        int zeroposition = 8;
+        int tmp;
+        int movenum = 0;
+        for (int i = 0; i <= 8; i++) {
+            if (serialnum[i] == 0) {
+                zeroposition = i;
+                break;
+            }
+        }
+        Random rdm = new Random(System.currentTimeMillis());
+
+        while (count < 20) {
+            direction[count++] = Math.abs(rdm.nextInt()) % 4;
+        }
+        count = 0;
+        while (movenum < 30) {
+            if (count == 20) {
+                count = 0;
+            }
+            int cd = direction[count];
+            if (cd == 0) {
+                if (zeroposition - 3 >= 0) {
+                    serialnum[zeroposition] = serialnum[zeroposition - 3];
+                    serialnum[zeroposition - 3] = 0;
+                    zeroposition = zeroposition - 3;
+                    movenum++;
+                }
+            } else if (cd == 1) {
+                if (zeroposition + 3 <= 8) {
+                    serialnum[zeroposition] = serialnum[zeroposition + 3];
+                    serialnum[zeroposition + 3] = 0;
+                    zeroposition = zeroposition + 3;
+                    movenum++;
+                }
+            } else if (cd == 2) {
+                if (zeroposition != 0 && zeroposition != 3 && zeroposition != 6) {
+                    serialnum[zeroposition] = serialnum[zeroposition - 1];
+                    serialnum[zeroposition - 1] = 0;
+                    zeroposition = zeroposition - 1;
+                    movenum++;
+                }
+            } else if (cd == 3) {
+                if (zeroposition != 2 && zeroposition != 5 && zeroposition != 8) {
+                    serialnum[zeroposition] = serialnum[zeroposition + 1];
+                    serialnum[zeroposition + 1] = 0;
+                    zeroposition = zeroposition + 1;
+                    movenum++;
+                }
+            }
+            count++;
+        }
+        return serialnum;
     }
 
     public void initEmptyPosition() {
