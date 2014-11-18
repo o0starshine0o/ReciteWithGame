@@ -1,6 +1,8 @@
 package com.starshine.app.utils;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,6 +14,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import java.io.FileNotFoundException;
@@ -21,6 +24,8 @@ import java.io.InputStream;
  * 处理bitmap
  *
  * Created by huyongsheng on 2014/6/3.
+ *
+ * Modified by SunFenggang on 2014/11/15.
  */
 public class BitmapUtils {
     /**
@@ -182,10 +187,70 @@ public class BitmapUtils {
     }
 
     public static Bitmap getCutBitmapByUri(Context context, Uri uri, int rows, int location){
-        return setCutBitmap(getBitmapByUri(context, uri), rows, location);
+        String path = getPathFromUri(context, uri);
+        return setCutBitmap(getScaledImage(path, 480, 960), rows, location);
     }
 
     public static Bitmap getBitmapByResourceId(Context context, int resId){
         return BitmapFactory.decodeResource(context.getResources(), resId);
+    }
+
+    /**
+     * 从Uri获取图片绝对路径
+     * @param context
+     * @param uri
+     * @return
+     */
+    public static String getPathFromUri(Context context,Uri uri) {
+        ContentResolver cr = context.getContentResolver();
+        String [] proj={MediaStore.Images.Media.DATA};
+        Cursor cursor = cr.query(uri,
+                proj,                // Which columns to return
+                null,               // WHERE clause; which rows to return (all rows)
+                null,               // WHERE clause selection arguments (none)
+                null);              // Order-by clause (ascending by name)
+        if (cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 缩放图片到指定大小，返回缩放倍数
+     * scale image to fixed height and weight
+     *
+     * @param imagePath
+     * @return
+     */
+    public static int getAvatarScale(String imagePath, int width, int height) {
+        BitmapFactory.Options option = new BitmapFactory.Options();
+        // set inJustDecodeBounds to true, allowing the caller to query the bitmap info without having to allocate the
+        // memory for its pixels.
+        option.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, option);
+
+        int scale = 1;
+        while (option.outWidth / scale >= width || option.outHeight / scale >= height) {
+            scale *= 2;
+        }
+
+        return scale;
+    }
+
+    /**
+     * 获取缩放后的图片
+     * @param path 图片路径
+     * @param width 最大宽度
+     * @param height 最大高度
+     * @return 图片
+     */
+    public static Bitmap getScaledImage(String path, int width, int height) {
+        BitmapFactory.Options option = new BitmapFactory.Options();
+        option.inSampleSize = BitmapUtils.getAvatarScale(path, width, height);
+        Bitmap bm = BitmapFactory.decodeFile(path, option);
+        return bm;
     }
 }

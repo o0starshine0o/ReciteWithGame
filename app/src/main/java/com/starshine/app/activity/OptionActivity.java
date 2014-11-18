@@ -1,6 +1,7 @@
 package com.starshine.app.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.starshine.app.constant.RequestConstant;
 import com.starshine.app.constant.SharedPreferencesConstant;
 import com.starshine.app.dialog.SelectColorDialog;
 import com.starshine.app.model.UserInfo;
+import com.starshine.app.utils.BitmapUtils;
 import com.starshine.app.utils.LogUtils;
 import com.starshine.app.utils.SharedPreferencesUtils;
 
@@ -198,9 +200,11 @@ public class OptionActivity extends BaseActivity {
         } else {
             String uriStr = SharedPreferencesUtils.getString(this, SharedPreferencesConstant.APP_NAME,
                     SharedPreferencesConstant.PUZZLE_BACKGROUND_URI, "");
-            if (!"".equals(uriStr)) {
+            if (!"".equals(uriStr)) { // 缩放图片，并显示
                 Uri uri = Uri.parse(uriStr);
-                imgPuzzleBg.setImageURI(uri);
+                String path = BitmapUtils.getPathFromUri(this, uri);
+                Bitmap bm = BitmapUtils.getScaledImage(path, 480, 960);
+                imgPuzzleBg.setImageBitmap(bm);
             } else {
                 int id = SharedPreferencesUtils.getInt(OptionActivity.this,
                         SharedPreferencesConstant.APP_NAME,

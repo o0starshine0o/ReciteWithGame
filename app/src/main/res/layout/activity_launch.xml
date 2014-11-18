@@ -9,35 +9,34 @@
     <ImageView
         android:id="@+id/iv_launch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:src="@drawable/launch"
         android:scaleType="fitCenter"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:layout_centerInParent="true"/>
 
     <TextView
+        android:layout_below="@id/iv_launch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_init_lexicon"
-        android:layout_above="@+id/tv_lexicon_progress"
+        android:id="@+id/txvWeixin"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/ts_normal"
-        android:layout_margin="20dp" />
+        android:layout_marginTop="20dp"
+        android:text="@string/launch_slogan_weixin"
+        android:gravity="center"
+        style="@style/GeneralTextTheme"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_lexicon_progress"
-        android:layout_above="@+id/tv_word_progress"
+        android:id="@+id/txvQq"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/ts_big" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_word_progress"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="@dimen/ts_bigger"
-        android:layout_marginBottom="20dp"/>
+        android:textSize="@dimen/ts_normal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/txvWeixin"
+        android:text="@string/launch_slogan_qq"
+        android:gravity="center"
+        style="@style/GeneralTextTheme"/>
 </RelativeLayout>

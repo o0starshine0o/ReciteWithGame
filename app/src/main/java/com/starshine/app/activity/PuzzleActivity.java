@@ -151,8 +151,11 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
                 updateItemUri(Uri.parse(uri)); // 设定游戏背景
                 if (!StringUtils.isNullOrEmpty(uri)) { // 设定左上角的图片
                     /* 存在本地图片，使用本地图片 */
-                    mHeaderPortraitImageView.setImageBitmap(
-                            BitmapUtils.getBitmapByUri(PuzzleActivity.this, Uri.parse(uri)));
+                    String path = BitmapUtils.getPathFromUri(PuzzleActivity.this, Uri.parse(uri));
+                    mHeaderPortraitImageView.setImageBitmap( // 缩放后设置
+                            BitmapUtils.getScaledImage(path, 200, 200));
+//                    mHeaderPortraitImageView.setImageBitmap(
+//                            BitmapUtils.getBitmapByUri(PuzzleActivity.this, Uri.parse(uri)));
                 } else {
                     /* 不存在本地图片，使用系统默认的第一幅图 */
                     mHeaderPortraitImageView.setImageBitmap(

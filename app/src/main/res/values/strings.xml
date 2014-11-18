@@ -48,4 +48,6 @@
     <string name="txt_txv_sys_bg">系统推荐背景</string>
     <string name="txt_set_color_white">白色</string>
     <string name="txt_set_color_black">黑色</string>
+    <string name="launch_slogan_weixin">更多好玩小游戏，请关注微信公众号：wordgame</string>
+    <string name="launch_slogan_qq">QQ客服：3124201561</string>
 </resources>
