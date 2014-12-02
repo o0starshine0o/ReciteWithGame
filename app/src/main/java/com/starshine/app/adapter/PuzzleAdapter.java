@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.starshine.app.R;
 import com.starshine.app.constant.SharedPreferencesConstant;
@@ -120,6 +121,9 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
                 initHolder.word0.setText(getItem(position).getCnWord());
                 initHolder.word0.setTextColor(color);
                 initHolder.bgView.setImageBitmap(mList.get(position).getBitmap());
+                if (mList.get(position).getInitPosition() == position) {
+                    initHolder.word0.setText(getItem(position).getEnWord()+" : "+getItem(position).getCnWord());
+                }
             }
         } else {
             initHolder.contentViewRun.setVisibility(View.GONE);
@@ -146,14 +150,14 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
         if (isRun){
         // 检测此item是否为空格
             if (position != mEmptyPosition) {
-                if (canExchange(position, mEmptyPosition)) {
-                    exchange(position, mEmptyPosition);
-                    mEmptyPosition = position;
-                    notifyDataSetChanged();
-                    if (isFinish()) {
-                        mListener.winGame();
-                    }
+//                if (canExchange(position, mEmptyPosition)) {
+                exchange(position, mEmptyPosition);
+                mEmptyPosition = position;
+                notifyDataSetChanged();
+                if (isFinish()) {
+                    mListener.winGame();
                 }
+//                }
             }
         }
     }
@@ -183,6 +187,7 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
     private void exchange(int position, int emptyPosition) {
         mList.set(emptyPosition, mList.get(position));
         mList.set(position, new PuzzleItem());
+        mList.get(position).setInitPosition(-1); // 设定其初始值为-1，否则会影响isFinish的判定结果
     }
 
     private boolean isFinish() {
@@ -196,7 +201,6 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
                 break;
             }
         }
-
         return isFinish;
     }
 

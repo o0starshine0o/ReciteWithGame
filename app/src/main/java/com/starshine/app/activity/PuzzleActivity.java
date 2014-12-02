@@ -280,6 +280,9 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
         // 保存到本地
         SharedPreferencesUtils.save(PuzzleActivity.this, SharedPreferencesConstant.APP_NAME,
                 sharedBest, bestInfo);
+        // 更新界面：
+        txvBest.setText("最佳：" + DateTimeUtils.secondsToFormattedString(bestInfo));
+
         startActivityForResult(intent, RequestConstant.START_TO_PUZZLE_WIN_ACTIVITY_REQUEST);
     }
 
