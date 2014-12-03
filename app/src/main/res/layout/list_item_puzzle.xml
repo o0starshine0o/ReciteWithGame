@@ -16,14 +16,13 @@
         android:layout_height="fill_parent"
         android:gravity="center"
         android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/tv_word_0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:textColor="@color/white"
-        android:textSize="@dimen/ts_big" />
+        <TextView
+            android:id="@+id/tv_word_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/ts_big" />
     </LinearLayout>
 
     <LinearLayout
@@ -32,7 +31,6 @@
         android:layout_height="fill_parent"
         android:gravity="center"
         android:orientation="vertical">
-
         <TextView
             android:id="@+id/tv_word_1"
             android:layout_width="wrap_content"
@@ -40,7 +38,6 @@
             android:padding="5dp"
             android:textColor="@color/white"
             android:textSize="@dimen/ts_normal" />
-
         <TextView
             android:id="@+id/tv_word_2"
             android:layout_width="wrap_content"
@@ -50,5 +47,16 @@
             android:textIsSelectable="false"
             android:textSize="@dimen/ts_normal" />
     </LinearLayout>
+    <ImageView
+        android:id="@+id/imvLock"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="3dp"
+        android:src="@drawable/img_lock"
+        android:scaleType="fitCenter"
+        android:visibility="gone"/>
 
 </RelativeLayout>

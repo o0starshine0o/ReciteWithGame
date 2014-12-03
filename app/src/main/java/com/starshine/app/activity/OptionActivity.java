@@ -109,12 +109,12 @@ public class OptionActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.btnNormal:
-                /* 跳转到PuzzleActivity，普通模式，300s */
-                startActivityToPuzzle(300);
+                /* 跳转到PuzzleActivity，普通模式，60s */
+                startActivityToPuzzle(60);
                 break;
             case R.id.btnPro:
-                /* 跳转到PuzzleActivity，挑战模式，120s */
-                startActivityToPuzzle(120);
+                /* 跳转到PuzzleActivity，挑战模式，30s */
+                startActivityToPuzzle(30);
                 break;
             case R.id.relativeLayoutSetTextColor:
                 /* 设定字体颜色 */

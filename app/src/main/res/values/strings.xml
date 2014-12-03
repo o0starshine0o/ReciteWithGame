@@ -21,7 +21,7 @@
     <string name="go_on">继续</string>
     <string name="give_up">放弃</string>
     <string name="show">炫耀</string>
-    <string name="win_tip">本次单词拼图用时：%1$s,领先全国%2$s的用户。特发此奖，以资鼓励。</string>
+    <string name="win_tip">恭喜，您本次用时%1$s，特发奖状，以资鼓励。您目前最佳纪录为%2$s。再接再厉哦！</string>
     <string name="lose_tip">本次挑战失败。别灰心，再接再厉啊！</string>
 
     <!-- title -->
@@ -32,8 +32,8 @@
     <string name="title_activity_choose_lexicon">选择题库</string>
     <string name="title_activity_set_game_bg">设置背景图</string>
 
-    <string name="btn_normal_mode">普通模式（5分钟）</string>
-    <string name="btn_pro_mode">挑战模式（2分钟）</string>
+    <string name="btn_normal_mode">普通模式（60s）</string>
+    <string name="btn_pro_mode">挑战模式（30s）</string>
     <string name="txt_set_bg_from_local">从本地选择图片</string>
     <string name="txt_set_bg_hint">点击图片设定拼图背景</string>
     <string name="txt_set_bg_from_local_hint_no_1">1.</string>

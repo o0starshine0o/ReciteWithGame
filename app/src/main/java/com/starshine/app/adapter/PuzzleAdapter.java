@@ -2,6 +2,8 @@ package com.starshine.app.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,12 +44,16 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
     private Context mContext;
     private GameResultListener mListener;
     private int color;
+    private boolean[] locked;
+    private SoundPool soundPool;
 
     public PuzzleAdapter(Context context, GameResultListener listener) {
         mContext = context;
         mListener = listener;
         color = SharedPreferencesUtils.getInt(context, SharedPreferencesConstant.APP_NAME,
                 SharedPreferencesConstant.PUZZLE_TEXT_COLOR, Color.BLACK);
+        soundPool= new SoundPool(1, AudioManager.STREAM_SYSTEM, 5);
+        soundPool.load(mContext, R.raw.good, 1);
     }
 
     public void setData(List<PuzzleItem> list) {
@@ -57,6 +63,11 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
         mList = list;
         // 设定最后一个小块的initPosition为-1，否则在isFinish判断中会造成误判
         mList.get(mList.size()-1).setInitPosition(-1);
+        // 初始化locked
+        locked = new boolean[list.size()];
+        for (int i=0; i<list.size(); ++i) {
+            locked[i] = false;
+        }
     }
 
     @Override
@@ -106,6 +117,7 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
             initHolder.word0 = (TextView) convertView.findViewById(R.id.tv_word_0);
             initHolder.word1 = (TextView) convertView.findViewById(R.id.tv_word_1);
             initHolder.word2 = (TextView) convertView.findViewById(R.id.tv_word_2);
+            initHolder.imvLock = (ImageView) convertView.findViewById(R.id.imvLock);
             convertView.setTag(initHolder);
         } else {
             initHolder = (InitViewHolder) convertView.getTag();
@@ -123,6 +135,10 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
                 initHolder.bgView.setImageBitmap(mList.get(position).getBitmap());
                 if (mList.get(position).getInitPosition() == position) {
                     initHolder.word0.setText(getItem(position).getEnWord()+" : "+getItem(position).getCnWord());
+                    initHolder.imvLock.setVisibility(View.VISIBLE);
+                    locked[position] = true;
+                } else {
+                    initHolder.imvLock.setVisibility(View.GONE);
                 }
             }
         } else {
@@ -151,11 +167,13 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
         // 检测此item是否为空格
             if (position != mEmptyPosition) {
 //                if (canExchange(position, mEmptyPosition)) {
-                exchange(position, mEmptyPosition);
-                mEmptyPosition = position;
-                notifyDataSetChanged();
-                if (isFinish()) {
-                    mListener.winGame();
+                if (!locked[position]){
+                    exchange(position, mEmptyPosition);
+                    mEmptyPosition = position;
+                    notifyDataSetChanged();
+                    if (isFinish()) {
+                        mListener.winGame();
+                    }
                 }
 //                }
             }
@@ -188,6 +206,10 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
         mList.set(emptyPosition, mList.get(position));
         mList.set(position, new PuzzleItem());
         mList.get(position).setInitPosition(-1); // 设定其初始值为-1，否则会影响isFinish的判定结果
+        if (mList.get(emptyPosition).getInitPosition() == emptyPosition) {
+            locked[emptyPosition] = true;
+            soundPool.play(1, 1, 1, 0, 0, 1);
+        }
     }
 
     private boolean isFinish() {
@@ -307,5 +329,6 @@ public class PuzzleAdapter extends BaseAdapter implements View.OnClickListener {
         private TextView word0;
         private TextView word1;
         private TextView word2;
+        private ImageView imvLock;
     }
 }

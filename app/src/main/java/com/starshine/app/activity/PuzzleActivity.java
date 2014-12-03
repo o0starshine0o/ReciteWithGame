@@ -258,7 +258,6 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
         intent.setClass(this, ResultWinActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt(IntentConstant.CONSUME_TIME, usedTime);
-        intent.putExtras(bundle);
 
         String sharedBest = SharedPreferencesConstant.BEST_CET_4;
         if (mTableName.equals("lexicon_cet_4")) {
@@ -283,6 +282,8 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
         // 更新界面：
         txvBest.setText("最佳：" + DateTimeUtils.secondsToFormattedString(bestInfo));
 
+        bundle.putInt(IntentConstant.BEST_TIME, bestInfo);
+        intent.putExtras(bundle);
         startActivityForResult(intent, RequestConstant.START_TO_PUZZLE_WIN_ACTIVITY_REQUEST);
     }
 
@@ -334,6 +335,7 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
                         rlGameInfo.setVisibility(View.GONE);
                         llGameControl.setVisibility(View.VISIBLE);
                         mGameState = GAME_STATE_INIT; // 重置游戏状态
+                        initData(); // 重置游戏数据
                         break;
                     }
                     boolean isGiveUp = data.getBooleanExtra(

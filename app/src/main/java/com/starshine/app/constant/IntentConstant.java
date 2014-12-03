@@ -17,6 +17,7 @@ public class IntentConstant {
     public static final String PERCENT = "percent";
     public static final String TIME_LIMIT = "time_limit";
     public static final String PICTURE_URI = "picture_uri";
+    public static final String BEST_TIME = "best_time";
 
     /** 失败：是否继续 */
     public static final String ACTIVITY_RESULT_INTENT_CONTINUE = "activityResultIntentContinue";

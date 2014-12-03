@@ -2,25 +2,25 @@
 <pre-dex-items>
 
     <item
-        dex="C:\Users\Orange\WorkspaceForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\debug\classes-e25f0c97e07eb48f70a0749b3d7de40581011b36.jar"
+        dex="C:\Users\Orange\WorkspaceForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\release\classes-e25f0c97e07eb48f70a0749b3d7de40581011b36.jar"
         jar="C:\Users\Orange\WorkspaceForReciteWithGame\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\20.0.0\classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef"/>
     <item
-        dex="C:\Users\Orange\WorkspaceForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-56196fe813d0f5e6273c18c2b71cdc616aa78079.jar"
+        dex="C:\Users\Orange\WorkspaceForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\release\support-annotations-20.0.0-56196fe813d0f5e6273c18c2b71cdc616aa78079.jar"
         jar="C:\Program Files\android-studio\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
     <item
-        dex="C:\Users\Orange\WorkspaceForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-6e27c1936deaa44d30c5de45ecb61397bd997197.jar"
+        dex="C:\Users\Orange\WorkspaceForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\release\internal_impl-20.0.0-6e27c1936deaa44d30c5de45ecb61397bd997197.jar"
         jar="C:\Users\Orange\WorkspaceForReciteWithGame\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
     <item
-        dex="C:\Users\Orange\WorkspaceForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\debug\classes-ca5eb581bb9278cdf57afc3f7bafbf3f7125dc98.jar"
+        dex="C:\Users\Orange\WorkspaceForReciteWithGame\ReciteWithGame\app\build\intermediates\pre-dexed\release\classes-ca5eb581bb9278cdf57afc3f7bafbf3f7125dc98.jar"
         jar="C:\Users\Orange\WorkspaceForReciteWithGame\ReciteWithGame\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
         jumboMode="false"
         revision="19.1.0"

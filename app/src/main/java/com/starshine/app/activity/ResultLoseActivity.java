@@ -1,6 +1,8 @@
 package com.starshine.app.activity;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +21,7 @@ public class ResultLoseActivity extends BaseActivity {
     private Button mGiveUpButton;
     private Button mContinueButton;
     private TextView mTipTextView;
-
+    private SoundPool soundPool;
 
     @Override
     protected void getIntentData() {
@@ -44,12 +46,19 @@ public class ResultLoseActivity extends BaseActivity {
         mContinueButton = (Button) findViewById(R.id.btnContinue);
         mTipTextView = (TextView) findViewById(R.id.tv_win_tip);
         mTipTextView.setText(R.string.lose_tip);
+        soundPool= new SoundPool(1, AudioManager.STREAM_SYSTEM, 5);
+        soundPool.load(this, R.raw.lose, 1);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                soundPool.play(1, 1, 1, 0, 0, 1);
+            }
+        });
         setOnClickListener(mGiveUpButton, mContinueButton, mBackButton);
     }
 
     @Override
     protected void initData() {
-
     }
 
     @Override

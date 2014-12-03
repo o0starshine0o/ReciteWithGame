@@ -3,6 +3,8 @@ package com.starshine.app.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,22 +13,27 @@ import android.widget.Toast;
 
 import com.starshine.app.R;
 import com.starshine.app.constant.IntentConstant;
+import com.starshine.app.constant.SharedPreferencesConstant;
 import com.starshine.app.utils.DateTimeUtils;
 import com.starshine.app.utils.NetUtils;
+import com.starshine.app.utils.SharedPreferencesUtils;
 
 public class ResultWinActivity extends BaseActivity {
 
     private int mConsumeTime;
+    private int mBestTime;
     private String mPercent;
 
     private Button mContinueButton;
     private Button mShowButton;
     private TextView mTipTextView;
+    private SoundPool soundPool;
 
     @Override
     protected void getIntentData() {
         Intent intent = getIntent();
         mConsumeTime = intent.getIntExtra(IntentConstant.CONSUME_TIME, 295);
+        mBestTime = intent.getIntExtra(IntentConstant.BEST_TIME, 60);
         mPercent = intent.getStringExtra(IntentConstant.PERCENT);
         // TODO delete mock data
         mPercent = "99.9%";
@@ -50,8 +57,17 @@ public class ResultWinActivity extends BaseActivity {
         mShowButton = (Button) findViewById(R.id.btnShow);
         mTipTextView = (TextView) findViewById(R.id.tv_win_tip);
         mTipTextView.setText(getString(R.string.win_tip,
-                DateTimeUtils.secondsToFormattedString(mConsumeTime), mPercent));
+                DateTimeUtils.secondsToFormattedString(mConsumeTime),
+                DateTimeUtils.secondsToFormattedString(mBestTime)));
         setOnClickListener(mContinueButton, mShowButton);
+        soundPool= new SoundPool(1, AudioManager.STREAM_SYSTEM, 5);
+        soundPool.load(this, R.raw.win, 1);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                soundPool.play(1, 1, 1, 0, 0, 1);
+            }
+        });
     }
 
     @Override
