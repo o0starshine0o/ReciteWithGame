@@ -45,6 +45,9 @@ import java.util.List;
  *
  * Modified by SunFenggang on 2014/11/10.
  * 修改了进度显示逻辑，以及对游戏失败和胜利等多种情况下的处理逻辑
+ *
+ * Modified by SunFenggang on 2014/12/05.
+ * 解决了锁屏再截屏后倒计时不能继续的bug。
  */
 public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameResultListener, CountdownTask.TimeUpdateListener {
     private static final String LOG_TAG = PuzzleActivity.class.getSimpleName();
@@ -154,8 +157,6 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
                     String path = BitmapUtils.getPathFromUri(PuzzleActivity.this, Uri.parse(uri));
                     mHeaderPortraitImageView.setImageBitmap( // 缩放后设置
                             BitmapUtils.getScaledImage(path, 200, 200));
-//                    mHeaderPortraitImageView.setImageBitmap(
-//                            BitmapUtils.getBitmapByUri(PuzzleActivity.this, Uri.parse(uri)));
                 } else {
                     /* 不存在本地图片，使用系统默认的第一幅图 */
                     mHeaderPortraitImageView.setImageBitmap(
@@ -328,6 +329,10 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
                 }
                 break;
             case RequestConstant.START_TO_PUZZLE_LOSE_ACTIVITY_REQUEST: // 从失败界面返回
+                // 重置游戏状态
+                // 在此处重置是为了防止从失败界面返回时，倒计时重新开始。
+                mGameState = GAME_STATE_INIT;
+
                 if (resultCode == RESULT_OK) {
                     boolean isContinue = data.getBooleanExtra(
                             IntentConstant.ACTIVITY_RESULT_INTENT_CONTINUE, false);
@@ -354,6 +359,10 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
                 }
                 break;
             case RequestConstant.START_TO_PUZZLE_WIN_ACTIVITY_REQUEST: // 从胜利界面返回
+                // 重置游戏状态
+                // 在此处重置是为了防止从失败界面返回时，倒计时重新开始。
+                mGameState = GAME_STATE_INIT;
+
                 if (resultCode == RESULT_OK) {
                     boolean isContinue = data.getBooleanExtra(
                             IntentConstant.ACTIVITY_RESULT_INTENT_CONTINUE, false);
@@ -409,6 +418,15 @@ public class PuzzleActivity extends BaseActivity implements PuzzleAdapter.GameRe
             for (int i=0; i<mList.size(); ++i) {
                 mList.get(i).setBitmap(BitmapUtils.setCutBitmap(bitmap, 3, i));
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mGameState != GAME_STATE_INIT) {
+            mCountdownTask = new CountdownTask(mTimeRest, this);
+            mCountdownTask.execute(mTimeRest);
         }
     }
 }
