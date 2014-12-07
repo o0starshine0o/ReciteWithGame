@@ -28,7 +28,7 @@
             android:layout_marginTop="150dp"
             android:text="@string/win_tip"
             android:id="@+id/tv_win_tip"
-            android:textSize="@dimen/ts_bigger"
+            android:textSize="@dimen/ts_normal"
             android:textColor="@color/black" />
 
     </RelativeLayout>
